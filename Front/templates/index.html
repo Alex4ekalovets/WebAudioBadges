@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+{% block content %}
+    <div class="fixed-bottom" style="left: unset; right: 5px; bottom: 5px;">
+        <button type="button" class="btn btn-light" onclick="$(document).scrollTop(0);">^</button>
+    </div>
+    <nav class="row justify-content-center mt-2" aria-label="">
+        <ul class="pagination">
+            {#    <li class="page-item"><a class="page-link" href="#">Предыдущая</a></li>#}
+            {% for page in pages %}
+                {% if page != "..." %}
+                    <li class="page-item"><a class="page-link"
+                                             href="http://172.20.5.168:5002/?page={{ page }}">{{ page }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item"><a class="page-link"
+                                             href="#">{{ page }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {#    <li class="page-item"><a class="page-link" href="#">Следующая</a></li>#}
+        </ul>
+    </nav>
+    <div class="container-fluid border-left border-right mx-auto" style="min-width: 1300px;">
+        <div class="row justify-content-center border-bottom border-top">
+            <div class="col-2 border-left ">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <h6 class="mx-auto my-2 text-break">Аудио</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-10 d-flex align-items-stretch">
+                <div class="row justify-content-center w-100">
+                    <div class="col-4 border-left ">
+                        <h6 class="mx-auto my-2 text-break">Транскрипция 1</h6>
+                    </div>
+                    <div class="col-4 border-left ">
+                        <h6 class="mx-auto my-2 text-break">Транскрипция 2</h6>
+                    </div>
+                    <div class="col-4 border-left ">
+                        <h6 class="mx-auto my-2 text-break">Транскрипция 3</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for record in records %}
+            <div class="row justify-content-center border-bottom">
+                <div class="col-2 border-left d-flex align-items-stretch">
+                    <audio id="bjs" src="http://172.20.5.168:5002/audio/{{ record.audio_file_name }}"
+                           preload="auto" controls class="mt-2 mb-2"></audio>
+                </div>
+                <div class="col-10 d-flex align-items-stretch">
+                    <div class="row justify-content-center w-100">
+                        <div class="col-4 border-left  d-flex align-items-stretch">
+                            <div class="form-control mx-auto my-2 h-auto">{{ record.text_1 }}</div>
+                        </div>
+                        <div class="col-4 border-left  d-flex align-items-stretch">
+                            <div class="form-control mx-auto my-2 h-auto"></div>
+                        </div>
+                        <div class="col-4 border-left  d-flex align-items-stretch">
+                            <div class="form-control mx-auto my-2 h-auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

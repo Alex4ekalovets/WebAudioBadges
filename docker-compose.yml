@@ -1,0 +1,55 @@
+version: '3.1'
+
+services:
+  time-tracker:
+    container_name: web-audiobadge
+    build:
+      context: .
+      dockerfile: web.dockerfile
+    restart: always
+    command: >
+      /bin/bash -c "python3 -m uvicorn Front.main:app --host 0.0.0.0 --port 5000 --workers 1"
+    ports:
+      - "5002:5000"
+    depends_on:
+      - mongo
+    env_file:
+      - .env
+    networks:
+      ab_network:
+    volumes:
+      - "/d/records2:/data/files"
+
+  mongo:
+    container_name: ab-mongo
+    image: mongo
+    restart: always
+    ports:
+      - "27021:27017"
+    env_file:
+      - .env
+    networks:
+      ab_network:
+        aliases:
+          - mongo
+    volumes:
+      - "mongodb_data:/data/db"
+
+  mongo-express:
+    container_name: ab-mongo-express
+    image: mongo-express
+    restart: always
+    ports:
+      - "8085:8081"
+    depends_on:
+      - mongo
+    env_file:
+      - .env
+    networks:
+      ab_network:
+
+networks:
+  ab_network:
+
+volumes:
+  mongodb_data:
