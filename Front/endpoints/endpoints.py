@@ -24,7 +24,7 @@ def index(request: Request, page: int = 1):
     items_on_page = 10
     count = 0
     while count < items_on_page:
-        audio_file_name = f"{DIRS[i]}-audio.wav"
+        audio_file_name = f"{DIRS[i]}-audio.ogg"
         audio_file = f"/data/files/{DIRS[i]}/{audio_file_name}"
         text_file = f"/data/files/{DIRS[i]}/{DIRS[i]}-text.txt"
         if os.path.exists(audio_file) and os.path.getsize(audio_file) > 60000:
@@ -35,7 +35,17 @@ def index(request: Request, page: int = 1):
                 time_pattern = re.compile(r"\d+:\d+")
                 text_1 = transcription_pattern.sub("", text_1)
                 text_1 = time_pattern.sub("", text_1)
-                record = {"audio_file_name": audio_file_name, "text_1": text_1.strip()}
+                text_2_file = f"/data/files/{DIRS[i]}/{DIRS[i]}-text-whisper.txt"
+                try:
+                    with open(text_2_file, "r", encoding="cp1251") as f:
+                        text_2 = f.read()
+                except:
+                    text_2 = ""
+                record = {
+                    "audio_file_name": audio_file_name,
+                    "text_1": text_1.strip(),
+                    "text_2": text_2,
+                }
                 context["records"].append(record)
                 count += 1
         i += 1

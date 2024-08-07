@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% block title %} Сравнение транскрипций {% endblock %}
 {% block head %}
 {% endblock %}
 {% block content %}
@@ -8,11 +8,10 @@
     </div>
     <nav class="row justify-content-center mt-2" aria-label="">
         <ul class="pagination">
-            {#    <li class="page-item"><a class="page-link" href="#">Предыдущая</a></li>#}
             {% for page in pages %}
                 {% if page != "..." %}
                     <li class="page-item"><a class="page-link"
-                                             href="http://172.20.5.168:5002/?page={{ page }}">{{ page }}</a>
+                                             href="/?page={{ page }}">{{ page }}</a>
                     </li>
                 {% else %}
                     <li class="page-item"><a class="page-link"
@@ -20,7 +19,6 @@
                     </li>
                 {% endif %}
             {% endfor %}
-            {#    <li class="page-item"><a class="page-link" href="#">Следующая</a></li>#}
         </ul>
     </nav>
     <div class="container-fluid border-left border-right mx-auto" style="min-width: 1300px;">
@@ -49,7 +47,7 @@
         {% for record in records %}
             <div class="row justify-content-center border-bottom">
                 <div class="col-2 border-left d-flex align-items-stretch">
-                    <audio id="bjs" src="http://172.20.5.168:5002/audio/{{ record.audio_file_name }}"
+                    <audio id="bjs" src="/audio/{{ record.audio_file_name }}"
                            preload="auto" controls class="mt-2 mb-2"></audio>
                 </div>
                 <div class="col-10 d-flex align-items-stretch">
@@ -58,10 +56,10 @@
                             <div class="form-control mx-auto my-2 h-auto">{{ record.text_1 }}</div>
                         </div>
                         <div class="col-4 border-left  d-flex align-items-stretch">
-                            <div class="form-control mx-auto my-2 h-auto"></div>
+                            <div class="form-control mx-auto my-2 h-auto">{{ record.text_2 }}</div>
                         </div>
                         <div class="col-4 border-left  d-flex align-items-stretch">
-                            <div class="form-control mx-auto my-2 h-auto"></div>
+                            <div class="form-control mx-auto my-2 h-auto">{{ record.text_3 }}</div>
                         </div>
                     </div>
                 </div>
