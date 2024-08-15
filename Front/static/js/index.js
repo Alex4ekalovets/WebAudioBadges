@@ -20,8 +20,8 @@ function playNewAudio(newAudio) {
 let editTextAreas = document.querySelectorAll(".edit-area")
 
 for (let i = 0; i < editTextAreas.length; i++) {
-     editTextAreas[i].addEventListener("click", saveTextToFile);
- }
+    editTextAreas[i].addEventListener("click", saveTextToFile);
+}
 
 async function saveTextToFile(e) {
     let file_data = {
@@ -31,6 +31,9 @@ async function saveTextToFile(e) {
     const response = await fetch(
         "http://172.20.3.134:5002/save_text", {
             method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(file_data)
         })
     if (response.ok) {
