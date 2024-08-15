@@ -1,17 +1,55 @@
-version: '3'
+version: '3.1'
+
 services:
-  app:
+  web_audio_badge:
+    container_name: web-audiobadge
     build:
       context: .
-      dockerfile: Dockerfile
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
-
+      dockerfile: web.dockerfile
+    restart: always
+    command: >
+      /bin/bash -c "python3 -m uvicorn Front.main:app --host 0.0.0.0 --port 5000 --workers 1"
+    ports:
+      - "5002:5000"
+    depends_on:
+      - mongo-ab
+    env_file:
+      - .env
+    networks:
+      ab_network:
     volumes:
-      - "D:/records:/data/records"
+      - "/mnt/obmen/01.RUT/IT/Chekalovets/records:/data/files"
 
+  mongo-ab:
+    container_name: ab-mongo
+    image: mongo
+    restart: always
+    ports:
+      - "27021:27017"
+    env_file:
+      - .env
+    networks:
+      ab_network:
+        aliases:
+          - mongo-ab
+    volumes:
+      - "mongodb_data_ab:/data/db"
+
+  mongo-express-ab:
+    container_name: ab-mongo-express
+    image: mongo-express
+    restart: always
+    ports:
+      - "8085:8081"
+    depends_on:
+      - mongo-ab
+    env_file:
+      - .env
+    networks:
+      ab_network:
+
+networks:
+  ab_network:
+
+volumes:
+  mongodb_data_ab:

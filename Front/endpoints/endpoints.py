@@ -1,19 +1,15 @@
-import glob
 import os
 import re
-import shutil
-
-from fastapi import APIRouter, Request, UploadFile
+from fastapi import APIRouter, Request
 from fastapi.responses import FileResponse
-from loguru import logger
-
-import Front.config
 
 from Front.common import templates
+from Front.config import RECORDS_DIR
+from Front.schemas.files import TextFile
 
 page_router = APIRouter()
 
-DIRS = [d for d in os.listdir("/data/files")]
+DIRS = [d for d in os.listdir(RECORDS_DIR)]
 PAGE_FIRST_INDEXES = {1: 0}
 
 
@@ -24,9 +20,9 @@ def index(request: Request, page: int = 1):
     items_on_page = 10
     count = 0
     while count < items_on_page:
-        audio_file_name = f"{DIRS[i]}-audio.ogg"
-        audio_file = f"/data/files/{DIRS[i]}/{audio_file_name}"
-        text_file = f"/data/files/{DIRS[i]}/{DIRS[i]}-text.txt"
+        audio_file_name = f"{DIRS[i]}-audio.wav"
+        audio_file = f"{RECORDS_DIR}/{DIRS[i]}/{audio_file_name}"
+        text_file = f"{RECORDS_DIR}/{DIRS[i]}/{DIRS[i]}-text.txt"
         if os.path.exists(audio_file) and os.path.getsize(audio_file) > 60000:
             with open(text_file, "r", encoding="cp1251") as f:
                 text_1 = f.read()
@@ -35,16 +31,32 @@ def index(request: Request, page: int = 1):
                 time_pattern = re.compile(r"\d+:\d+")
                 text_1 = transcription_pattern.sub("", text_1)
                 text_1 = time_pattern.sub("", text_1)
-                text_2_file = f"/data/files/{DIRS[i]}/{DIRS[i]}-text-whisper.txt"
+                text_2_file = f"{RECORDS_DIR}/{DIRS[i]}/{DIRS[i]}-text-whisper.txt"
+                text_3_file = f"{RECORDS_DIR}/{DIRS[i]}/{DIRS[i]}-text-ysk.txt"
+                text_4_file = f"{RECORDS_DIR}/{DIRS[i]}/{DIRS[i]}-text-edit.txt"
                 try:
-                    with open(text_2_file, "r", encoding="cp1251") as f:
+                    with open(text_2_file, "r", encoding="utf-8") as f:
                         text_2 = f.read()
                 except:
                     text_2 = ""
+                try:
+                    with open(text_3_file, "r", encoding="utf-8") as f:
+                        text_3 = f.read()
+                except:
+                    text_3 = ""
+                try:
+                    with open(text_4_file, "r", encoding="utf-8") as f:
+                        text_4 = f.read()
+                except:
+                    text_4 = ""
+
                 record = {
                     "audio_file_name": audio_file_name,
+                    "number": DIRS[i],
                     "text_1": text_1.strip(),
                     "text_2": text_2,
+                    "text_3": text_3,
+                    "text_4": text_4,
                 }
                 context["records"].append(record)
                 count += 1
@@ -56,6 +68,14 @@ def index(request: Request, page: int = 1):
         pages = [1, 2, 3]
     context.update({"pages": pages})
     return templates.TemplateResponse(request, "index.html", context=context)
+
+
+@page_router.post("/save_text")
+async def save_text(file: TextFile):
+    file_path = f"{RECORDS_DIR}/{file.record_number}/{file.record_number}-text-edit.txt"
+    with open(file_path, "w") as text_file:
+        text_file.write(file.text)
+    return file
 
 
 @page_router.get("/audio/{file_name}")

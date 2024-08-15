@@ -32,14 +32,17 @@
             </div>
             <div class="col-10 d-flex align-items-stretch">
                 <div class="row justify-content-center w-100">
-                    <div class="col-4 border-left ">
+                    <div class="col-3 border-left ">
                         <h6 class="mx-auto my-2 text-break">Транскрипция 1</h6>
                     </div>
-                    <div class="col-4 border-left ">
+                    <div class="col-3 border-left ">
                         <h6 class="mx-auto my-2 text-break">Транскрипция 2</h6>
                     </div>
-                    <div class="col-4 border-left ">
+                    <div class="col-3 border-left ">
                         <h6 class="mx-auto my-2 text-break">Транскрипция 3</h6>
+                    </div>
+                    <div class="col-3 border-left ">
+                        <h6 class="mx-auto my-2 text-break">Ручной ввод</h6>
                     </div>
                 </div>
             </div>
@@ -52,14 +55,19 @@
                 </div>
                 <div class="col-10 d-flex align-items-stretch">
                     <div class="row justify-content-center w-100">
-                        <div class="col-4 border-left  d-flex align-items-stretch">
+                        <div class="col-3 border-left  d-flex align-items-stretch">
                             <div class="form-control mx-auto my-2 h-auto">{{ record.text_1 }}</div>
                         </div>
-                        <div class="col-4 border-left  d-flex align-items-stretch">
+                        <div class="col-3 border-left  d-flex align-items-stretch">
                             <div class="form-control mx-auto my-2 h-auto">{{ record.text_2 }}</div>
                         </div>
-                        <div class="col-4 border-left  d-flex align-items-stretch">
+                        <div class="col-3 border-left  d-flex align-items-stretch">
                             <div class="form-control mx-auto my-2 h-auto">{{ record.text_3 }}</div>
+                        </div>
+                        <div class="col-3 border-left  d-flex align-items-stretch">
+                            <label>
+                                <textarea class="edit-area form-control mx-auto my-2 h-auto" id="{{ record.number }}">{{ record.text_4 }}</textarea>
+                            </label>
                         </div>
                     </div>
                 </div>

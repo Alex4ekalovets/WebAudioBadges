@@ -9,9 +9,9 @@ RUN apt-get update && \
     ln -sf /usr/share/zoneinfo/Asia/Omsk /etc/localtime && \
     echo "Asia/Omsk" > /etc/timezone
 
-COPY requirements/base-requirements.txt ./
+COPY Front/requirements.txt ./
 
-RUN pip install -r base-requirements.txt
+RUN pip install -r requirements.txt
 
 COPY Front ./Front
 
