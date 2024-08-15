@@ -1,6 +1,6 @@
 import os
 import re
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Body
 from fastapi.responses import FileResponse
 
 from Front.common import templates
@@ -71,7 +71,7 @@ def index(request: Request, page: int = 1):
 
 
 @page_router.post("/save_text")
-async def save_text(file: TextFile):
+async def save_text(file: TextFile = Body(...)):
     file_path = f"{RECORDS_DIR}/{file.record_number}/{file.record_number}-text-edit.txt"
     with open(file_path, "w") as text_file:
         text_file.write(file.text)

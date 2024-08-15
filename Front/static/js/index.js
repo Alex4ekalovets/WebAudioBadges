@@ -31,7 +31,7 @@ async function saveTextToFile(e) {
     const response = await fetch(
         "http://172.20.3.134:5002/save_text", {
             method: "POST",
-            body: file_data
+            body: JSON.stringify(file_data)
         })
     if (response.ok) {
         console.log(`Текст записи ${e.target.id} успешно сохранен!`)
