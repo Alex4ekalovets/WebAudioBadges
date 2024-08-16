@@ -20,7 +20,7 @@ function playNewAudio(newAudio) {
 let editTextAreas = document.querySelectorAll(".edit-area")
 
 for (let i = 0; i < editTextAreas.length; i++) {
-    editTextAreas[i].addEventListener("click", saveTextToFile);
+    editTextAreas[i].addEventListener("change", saveTextToFile);
 }
 
 async function saveTextToFile(e) {
