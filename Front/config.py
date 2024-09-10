@@ -8,5 +8,5 @@ STATIC_DIR = ROOT_DIR / "static"
 
 # Dir with templates
 TEMPLATES_DIR = Path(os.getenv("TEMPLATES_DIR", default=ROOT_DIR / "templates"))
-# RECORDS_DIR = "/data/files"
-RECORDS_DIR = r"\\Obmen\obmen\01.RUT\IT\Chekalovets\records"
+RECORDS_DIR = os.getenv("RECORDS_DIR")
+# RECORDS_DIR = r"\\Obmen\obmen\01.RUT\IT\Chekalovets\records"
