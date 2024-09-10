@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %} Словарь {% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', path='css/badge.css') }}">
+{% endblock %}
+{% block content %}
+    <div class="fixed-bottom" style="left: unset; right: 5px; bottom: 5px;">
+        <button type="button" class="btn btn-light" onclick="$(document).scrollTop(0);">^</button>
+    </div>
+    <div class="container-fluid border-left border-right mx-auto" style="min-width: 1300px;">
+        <div class="row justify-content-center border-bottom border-top">
+            <div class="col-12 d-flex align-items-stretch">
+                <div class="row justify-content-center w-100">
+                    <div class="col-3 border-left ">
+                        <h6 class="mx-auto my-2 text-break">НАЗВАНИЕ</h6>
+                    </div>
+                    <div class="col-9 border-left ">
+                        <h6 class="mx-auto my-2 text-break">ПРИМЕРЫ</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for record in records %}
+            <div class="row justify-content-center border-bottom">
+                <div class="col-12 d-flex align-items-stretch">
+                    <div class="row justify-content-center w-100">
+                        <div class="col-3 border-left  d-flex align-items-stretch">
+                            <div class="form-control mx-auto my-2 h-auto transcription"><span class="badge badge-{{ record.color }}">{{ record.name }}</span></div>
+                        </div>
+                        <div class="col-9 border-left  d-flex align-items-stretch">
+                            <div class="form-control mx-auto my-2 h-auto transcription">{{ record.words }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', path='js/dictionary.js') }}"></script>
+{% endblock %}

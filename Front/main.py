@@ -16,7 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount(config.STATIC_PATH, StaticFiles(directory=config.STATIC_DIR))
+app.mount(config.STATIC_PATH, StaticFiles(directory=config.STATIC_DIR), name="static")
 
 app.include_router(page_router)
 

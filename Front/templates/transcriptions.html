@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block title %} Сравнение транскрипций {% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+    <div class="fixed-bottom" style="left: unset; right: 5px; bottom: 5px;">
+        <button type="button" class="btn btn-light" onclick="$(document).scrollTop(0);">^</button>
+    </div>
+    <nav class="row justify-content-center mt-2" aria-label="">
+        <ul class="pagination">
+            {% for page in pages %}
+                {% if page != "..." %}
+                    <li class="page-item"><a class="page-link"
+                                             href="/?page={{ page }}">{{ page }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item"><a class="page-link"
+                                             href="#">{{ page }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+    <div class="container-fluid border-left border-right mx-auto" style="min-width: 1300px;">
+        <div class="row justify-content-center border-bottom border-top">
+            <div class="col-12 d-flex align-items-stretch">
+                <div class="row justify-content-center w-100">
+                    <div class="col-3 border-left ">
+                        <h6 class="mx-auto my-2 text-break">ТРАНСКРИПЦИЯ 1</h6>
+                    </div>
+                    <div class="col-3 border-left ">
+                        <h6 class="mx-auto my-2 text-break">ТРАНСКРИПЦИЯ 2</h6>
+                    </div>
+                    <div class="col-3 border-left ">
+                        <h6 class="mx-auto my-2 text-break">ТРАНСКРИПЦИЯ 3</h6>
+                    </div>
+                    <div class="col-3 border-left ">
+                        <h6 class="mx-auto my-2 text-break">РУЧНОЙ ВВОД</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for record in records %}
+            <div class="row m-2" style="height: 150px">
+                <div id="track{{ record.number }}">
+                    <!-- the waveform will be rendered here -->
+                </div>
+            </div>
+            <div class="row justify-content-center border-bottom">
+                <div class="btn-group mb-2" role="group" aria-label="Basic example">
+                    <button class="btn btn-light" id="play-pause-button{{ record.number }}">
+                        <img src="{{ url_for('static', path='img/play-pause.svg') }}" alt="Воспроизвести/Пауза">
+                    </button>
+                    <button class="btn btn-light" id="download-button{{ record.number }}">
+                        <img src="{{ url_for('static', path='img/download.svg') }}" alt="Скачать">
+                    </button>
+                </div>
+
+                <script type="module">
+                    import WaveSurfer from "{{ url_for('static', path='js/wavesurfer/wavesurfer.js') }}";
+                    import Timeline from "{{ url_for('static', path='js/wavesurfer/plugins/timeline.esm.js') }}";
+                    import Hover from "{{ url_for('static', path='js/wavesurfer/plugins/hover.esm.js') }}"
+
+                    const wavesurfer{{ record.number }} = WaveSurfer.create({
+                            container: '#track{{ record.number }}',
+                            waveColor: '#4F4A85',
+                            progressColor: 'gray',
+                            url: '/audio/{{ record.audio_file_name }}',
+                            barWidth: 5,
+                            barGap: 5,
+                            barRadius: 5,
+                            plugins: [
+                                Hover.create({
+                                    lineColor: '#000000',
+                                    lineWidth: 2,
+                                    labelBackground: '#7f7d7d',
+                                    labelColor: '#fff',
+                                    labelSize: '11px',
+                                }),
+                                {#Timeline.create({#}
+                                {#    height: 15,#}
+                                {#    insertPosition: 'beforebegin',#}
+                                {#    timeInterval: 30,#}
+                                {#    primaryLabelInterval: 5,#}
+                                {#    secondaryLabelInterval: 1,#}
+                                {#    style: {#}
+                                {#        fontSize: '10px',#}
+                                {#        color: '#2D5B88',#}
+                                {#    },#}
+                                {#}), #}
+                        ],
+                        }
+                    )
+                    wavesurfer{{ record.number }}.on('ready', function () {
+                        const container = document.getElementById('track{{ record.number }}');
+                        container.style.width = '100%';
+                        container.style.height = '100px'; // задайте высоту waveform
+                    });
+                    document.getElementById('play-pause-button{{ record.number }}').addEventListener('click', function () {
+                        wavesurfer{{ record.number }}.playPause();
+                    });
+                    document.getElementById('download-button{{ record.number }}').addEventListener('click', function () {
+                        let a = document.createElement('a')
+                        a.href = '/audio/{{ record.audio_file_name }}'
+                        a.download = '{{ record.audio_file_name }}'
+                        a.click()
+                    })
+
+                </script>
+            </div>
+            <div class="row justify-content-center border-bottom">
+                <div class="col-12 d-flex align-items-stretch">
+                    <div class="row justify-content-center w-100">
+                        <div class="col-3 border-left  d-flex align-items-stretch">
+                            <div class="form-control mx-auto my-2 h-auto transcription">{{ record.text_1 }}</div>
+                        </div>
+                        <div class="col-3 border-left  d-flex align-items-stretch">
+                            <div class="form-control mx-auto my-2 h-auto transcription">{{ record.text_2 }}</div>
+                        </div>
+                        <div class="col-3 border-left  d-flex align-items-stretch">
+                            <div class="form-control mx-auto my-2 h-auto transcription">{{ record.text_3 }}</div>
+                        </div>
+                        <div class="col-3 border-left  d-flex align-items-stretch">
+                            <label for="{{ record.number }}"></label>
+                            <textarea class="edit-area form-control mx-auto my-2 h-auto"
+                                      id="{{ record.number }}">{{ record.text_4 }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', path='js/transcriptions.js') }}"></script>
+{% endblock %}

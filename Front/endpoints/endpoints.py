@@ -1,3 +1,4 @@
+import json
 import os
 import re
 from fastapi import APIRouter, Request, Body
@@ -67,7 +68,7 @@ def index(request: Request, page: int = 1):
     else:
         pages = [1, 2, 3]
     context.update({"pages": pages})
-    return templates.TemplateResponse(request, "index.html", context=context)
+    return templates.TemplateResponse(request, "transcriptions.html", context=context)
 
 
 @page_router.post("/save_text")
@@ -81,10 +82,29 @@ async def save_text(file: TextFile = Body(...)):
 @page_router.get("/audio/{file_name}")
 async def audio(request: Request, file_name: str):
     directory = file_name.split("-")[0]
-    audio_file = f"/data/files/{directory}/{file_name}"
+    audio_file = f"{RECORDS_DIR}/{directory}/{file_name}"
     audio_size = os.path.getsize(audio_file)
     headers = {
         "Content-Range": f"bytes=0-{audio_size}/{audio_size}",
         "Accept-Ranges": "bytes",
     }
     return FileResponse(audio_file, headers=headers, media_type="audio/wav")
+
+
+@page_router.get("/dictionary")
+async def dictionary(request: Request):
+    with open(f"{RECORDS_DIR}/dictionary.json", "r") as f:
+        dictionary = json.load(f)
+    records = [
+        {"name": key, "words": value, "color": dictionary["Color"][key]}
+        for key, value in dictionary["Examples"].items()
+    ]
+    context = {"records": records}
+    return templates.TemplateResponse(request, "dictionary.html", context=context)
+
+
+@page_router.get("/patterns")
+async def patterns():
+    with open(f"{RECORDS_DIR}/dictionary.json", "r") as f:
+        dictionary = json.load(f)
+    return dictionary

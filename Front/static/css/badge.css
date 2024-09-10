@@ -1,0 +1,51 @@
+.badge-Red {
+  background-color: #f76aa8; /* Change this to your desired color */
+  color: black; /* Change this to your desired text color for dark backgrounds */
+}
+
+.badge-LightOrange {
+  background-color: #f8cac5; /* Change this to your desired color */
+  color: black; /* Change this to your desired text color for dark backgrounds */
+}
+
+.badge-Blue {
+  background-color: #1f63cf; /* Change this to your desired color */
+  color: white; /* Change this to your desired text color for dark backgrounds */
+}
+
+.badge-Green {
+  background-color: #1aad6a; /* Change this to your desired color */
+  color: black; /* Change this to your desired text color for dark backgrounds */
+}
+
+.badge-Orange {
+  background-color: #f0d269; /* Change this to your desired color */
+  color: black; /* Change this to your desired text color for dark backgrounds */
+}
+
+.badge-Purple {
+  background-color: #1a88b8; /* Change this to your desired color */
+  color: black; /* Change this to your desired text color for dark backgrounds */
+}
+
+.badge-Yellow {
+  background-color: #fcfec4; /* Change this to your desired color */
+  color: black; /* Change this to your desired text color for dark backgrounds */
+}
+
+
+.badge-Gray {
+  background-color: #a6b9c9; /* Change this to your desired color */
+  color: black; /* Change this to your desired text color for dark backgrounds */
+}
+
+.badge-LightGreen {
+  background-color: lightseagreen; /* Change this to your desired color */
+  color: black; /* Change this to your desired text color for dark backgrounds */
+}
+
+
+.badge-Pink {
+  background-color: hotpink; /* Change this to your desired color */
+  color: black; /* Change this to your desired text color for dark backgrounds */
+}
