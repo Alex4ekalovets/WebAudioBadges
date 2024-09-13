@@ -1,0 +1,100 @@
+version: 1
+disable_existing_loggers: False
+
+#---------FORMATTERS------------#
+
+formatters:
+  default:
+    # "()": uvicorn.logging.DefaultFormatter
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  access:
+    # "()": uvicorn.logging.AccessFormatter
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  color:
+    '()': colorlog.ColoredFormatter
+    log_colors:
+        DEBUG: 'cyan'
+        INFO: 'green'
+        WARNING: 'yellow'
+        ERROR: 'red'
+        CRITICAL: 'red,bg_white'
+    format: "%(light_black)s%(asctime)-26s%(reset)s %(log_color)s%(levelname)-8s%(reset)s %(cyan)s%(name)-20s%(reset)s: %(message)s  %(light_black)s[module: %(module)s, func: %(funcName)s, line: %(lineno)d]%(reset)s"
+
+#---------HANDLERS------------#
+
+handlers:
+  default:
+    formatter: color
+    class: logging.StreamHandler
+    stream: ext://sys.stderr
+  access:
+    formatter: color
+    class: logging.StreamHandler
+    stream: ext://sys.stdout
+  color:
+    formatter: color
+    class: logging.StreamHandler
+    stream: ext://sys.stdout
+
+#---------LOGGERS------------#
+
+loggers:
+
+  #---------UVICORN--------#
+  uvicorn.error:
+    level: INFO
+    handlers:
+      - default
+    propagate: no
+
+  uvicorn.access:
+    level: INFO
+    handlers:
+      - access
+    propagate: no
+
+  #---------PASSLIB--------#
+
+  passlib.registry:
+    level: ERROR
+    handlers:
+      - color
+    propagate: no
+
+  passlib.utils.compat:
+    level: ERROR
+    handlers:
+      - default
+    propagate: no
+
+  #---------ASYNCIO--------#
+
+  asyncio:
+    level: ERROR
+    handlers:
+      - default
+    propagate: no
+
+  #---------MULTIPART--------#
+
+  multipart.multipart:
+    level: ERROR
+    handlers:
+      - default
+    propagate: no
+
+  #---------MY--------#
+
+  audio_badges:
+    level: DEBUG
+    handlers:
+      - default
+    propagate: no
+
+  #---------ROOT--------#
+
+root:
+  level: DEBUG
+  handlers:
+    - default
+  propagate: no

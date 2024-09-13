@@ -60,7 +60,7 @@
                     import WaveSurfer from "{{ url_for('static', path='js/wavesurfer/wavesurfer.js') }}";
                     import Timeline from "{{ url_for('static', path='js/wavesurfer/plugins/timeline.esm.js') }}";
                     import Hover from "{{ url_for('static', path='js/wavesurfer/plugins/hover.esm.js') }}"
-
+                    let waves = []
                     const wavesurfer{{ record.number }} = WaveSurfer.create({
                             container: '#track{{ record.number }}',
                             waveColor: '#4F4A85',

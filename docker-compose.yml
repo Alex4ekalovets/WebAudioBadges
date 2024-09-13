@@ -3,12 +3,13 @@ version: '3.1'
 services:
   web_audio_badge:
     container_name: web-audiobadge
+    user: root
     build:
       context: .
       dockerfile: web.dockerfile
     restart: always
     command: >
-      /bin/bash -c "python3 -m uvicorn Front.main:app --host 0.0.0.0 --port 5000 --workers 1"
+      /bin/bash -c "python3 -m uvicorn Front.main:app --host 0.0.0.0 --port 5000 --workers 1 --log-config Front/log_conf.yml"
     ports:
       - "5002:5000"
     depends_on:
@@ -18,7 +19,8 @@ services:
     networks:
       ab_network:
     volumes:
-      - "/mnt/obmen/01.RUT/IT/Chekalovets/records:/data/files"
+#      - "/mnt/obmen/01.RUT/IT/Chekalovets/records:/data/files"
+      - "//Obmen/obmen/01.RUT/IT/Chekalovets/records:/data/files"
 
   mongo-ab:
     container_name: ab-mongo
@@ -50,6 +52,7 @@ services:
 
 networks:
   ab_network:
+    driver: bridge
 
 volumes:
   mongodb_data_ab:

@@ -1,12 +1,13 @@
 import json
 import os
 import re
+
 from fastapi import APIRouter, Request, Body
 from fastapi.responses import FileResponse
 
 from Front.common import templates
 from Front.config import RECORDS_DIR
-from Front.schemas.files import TextFile
+from Front.models.files import TextFile
 
 page_router = APIRouter()
 
@@ -18,7 +19,7 @@ PAGE_FIRST_INDEXES = {1: 0}
 def index(request: Request, page: int = 1):
     context = {"records": []}
     i = PAGE_FIRST_INDEXES.get(page, 0)
-    items_on_page = 10
+    items_on_page = 1
     count = 0
     while count < items_on_page:
         audio_file_name = f"{DIRS[i]}-audio.wav"
@@ -108,3 +109,8 @@ async def patterns():
     with open(f"{RECORDS_DIR}/dictionary.json", "r") as f:
         dictionary = json.load(f)
     return dictionary
+
+
+@page_router.get("/service")
+async def service():
+    pass
