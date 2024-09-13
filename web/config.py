@@ -1,7 +1,11 @@
 import os
 from pathlib import Path
 
-from Front.auth_app.models import User
+import dotenv
+
+from web.auth_app.models import User
+
+dotenv.load_dotenv()
 
 ROOT_DIR = Path(os.getenv("ROOT_DIR", default=Path(__file__).parent)).resolve()
 
@@ -25,9 +29,11 @@ LDAP_USER_SEARCH_DN = os.getenv("LDAP_USER_SEARCH_DN")
 LDAP_USER_SEARCH_FILTER = os.getenv("LDAP_USER_SEARCH_FILTER")
 
 # MONGO
-MONGODB_URL = os.getenv("ME_CONFIG_MONGODB_URL")
+MONGODB_URL = os.getenv("MONGODB_URL")
 
 # LOGGING
 LOGGER_NAME = "audio_badges"
 
 BEANIE_MODELS = [User]
+
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")

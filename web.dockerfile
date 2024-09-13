@@ -9,10 +9,10 @@ RUN apt-get update && \
     ln -sf /usr/share/zoneinfo/Asia/Omsk /etc/localtime && \
     echo "Asia/Omsk" > /etc/timezone
 
-COPY Front/requirements.txt ./
+COPY web/requirements.txt ./
 
 RUN pip install -r requirements.txt
 
-COPY Front ./Front
+COPY web ./web
 
 ENV PYTHONPATH=/app

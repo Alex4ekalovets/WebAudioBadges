@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+    Регистрация
+{% endblock %}
+{% block content %}
+    <div class="text-center d-flex justify-content-center mt-4">
+        <form action="{{ url_for('register') }}" class="form-login" method="post">
+            <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+            <input type="text" id="username" class="form-control mb-2" placeholder="Имя пользователя" required=""
+                   autofocus="" name="username">
+            <input type="password" id="password" class="form-control" placeholder="Пароль" required=""
+                   name="password">
+            <div class="row">
+                <button class="btn btn-lg btn-primary mt-3 mb-3" type="submit">Войти</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

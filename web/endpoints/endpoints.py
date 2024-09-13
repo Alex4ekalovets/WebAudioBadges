@@ -5,9 +5,9 @@ import re
 from fastapi import APIRouter, Request, Body
 from fastapi.responses import FileResponse
 
-from Front.common import templates
-from Front.config import RECORDS_DIR
-from Front.models.files import TextFile
+from web.common import templates
+from web.config import RECORDS_DIR
+from web.models.files import TextFile
 
 page_router = APIRouter()
 

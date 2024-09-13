@@ -6,10 +6,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from Front.auth_app.endpoints import auth_router
-from Front.config import LOGGER_NAME, MONGODB_URL, BEANIE_MODELS
-from Front.endpoints.endpoints import page_router
-from Front import config
+from web.auth_app.endpoints import auth_router
+from web.auth_app.models import User
+from web.config import LOGGER_NAME, MONGODB_URL, BEANIE_MODELS
+from web.endpoints.endpoints import page_router
+from web import config
 from contextlib import asynccontextmanager
 
 logger = logging.getLogger(LOGGER_NAME)

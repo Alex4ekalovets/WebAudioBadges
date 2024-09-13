@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}
+    Вход
+{% endblock %}
+{% block content %}
+    <div class="text-center d-flex justify-content-center mt-4">
+        <form action="{{ url_for('login') }}" class="form-login" method="post">
+            <h1 class="h3 mb-3 font-weight-normal">Вход</h1>
+            <input type="text" id="username" class="form-control mb-2" placeholder="Имя пользователя" required=""
+                   autofocus="" name="username">
+            <input type="password" id="password" class="form-control" placeholder="Пароль" required=""
+                   name="password">
+            <div class="row">
+                <button class="btn btn-lg btn-primary mt-3 mb-3" type="submit">Войти</button>
+            </div>
+            <div class="row">
+                <a class="link-secondary" href="">Сбросить пароль</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
